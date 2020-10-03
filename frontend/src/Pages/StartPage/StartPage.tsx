@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
 export default function StartPage() {
     return (
         <div>
-            Start page !
+            Start page !<a href="/login">Login</a>
         </div>
-    )
+    );
 }
