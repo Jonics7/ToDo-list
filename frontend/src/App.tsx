@@ -1,11 +1,18 @@
 import React from 'react';
 import './App.css';
+import { Route, Switch } from 'react-router-dom';
+import Login from 'Pages/Login/Login';
+import StartPage from 'Pages/StartPage/StartPage';
+import Register from 'Pages/Register/Register';
 
-function App() {
+const App = () => {
+
   return (
-    <div className="App">
-      Hello world
-    </div>
+    <Switch>
+      <Route exact path='/start-page' component={StartPage}/>
+      <Route exact path='/login' component={Login}/>
+      <Route exact path='/register' component={Register}/>
+    </Switch>
   );
 }
 
