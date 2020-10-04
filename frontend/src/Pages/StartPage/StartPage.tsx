@@ -1,9 +1,6 @@
 import React from 'react';
+import './StartPage.scss';
 
-export default function StartPage() {
-    return (
-        <div>
-            Start page !<a href="/login">Login</a>
-        </div>
-    );
-}
+export const StartPage = () => {
+    return <div className="StartPage">Its start page</div>;
+};

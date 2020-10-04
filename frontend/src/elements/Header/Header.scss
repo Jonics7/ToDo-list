@@ -1,0 +1,10 @@
+@import '../../styles/styles.scss';
+
+.Header {
+    height: 3.75vw;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    background: $base-color;
+    font-family: 'Roboto Regular';
+}

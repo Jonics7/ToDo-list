@@ -1,9 +1,6 @@
-import React from 'react'
+import React from 'react';
+import './Register.scss';
 
-export default function Register() {
-    return (
-        <div>
-            Repister page
-        </div>
-    )
-}
+export const Register = () => {
+    return <div>Register page</div>;
+};

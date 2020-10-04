@@ -1,0 +1,19 @@
+@mixin border {
+    border: 0.052vw solid black;
+}
+
+@mixin border-top {
+    border-top: 0.052vw solid black;
+}
+
+@mixin border-bottom {
+    border-bottom: 0.052vw solid black;
+}
+
+@mixin border-left {
+    border-left: 0.052vw solid black;
+}
+
+@mixin border-right {
+    border-right: 0.052vw solid black;
+}
