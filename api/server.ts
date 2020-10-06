@@ -1,11 +1,22 @@
-import * as express from 'express';
+import express from 'express';
+import cors from 'cors';
 // import * as path from 'path';
 
 const app = express();
-const port = 9000;
+const port = 9090;
+
+app.use(
+    cors({
+        origin: 'http://localhost:3000',
+    }),
+);
+
+const data = {
+    id: 'hello',
+};
 
 app.get('/', function (request, response) {
-    response.send('Api is working');
+    response.send(data);
 });
 
 app.listen(port, () => {
