@@ -1,36 +1,21 @@
 import express from 'express';
 import cors from 'cors';
 import { connect } from 'mongoose';
+import mainRoutes from './routes';
+import userRoutes from './Users/routes/userRoutes';
+
+const routes = [mainRoutes, userRoutes];
 
 const app = express();
-const PORT = process.env.PORT || 9090;
+const PORT = process.env.PORT || 9080;
+const uri = 'mongodb+srv://Jonics7:3145324pP@todo-list.g8ewk.mongodb.net/todos';
 
 app.use(
     cors({
         origin: 'http://localhost:3000',
     }),
 );
-
-const data = {
-    id: 'hello',
-};
-
-app.get('/', function (request, response) {
-    response.send(data);
-});
-
-// app.post('/post', function (reqest, response) {
-//     client.connect((err: any) => {
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             response.send({ data: 'fuck' });
-//         }
-//         client.close();
-//     });
-// });
-
-const uri = 'mongodb+srv://Jonics7:3145324pP@todo-list.g8ewk.mongodb.net/todos';
+app.use(routes);
 
 async function Start() {
     try {
