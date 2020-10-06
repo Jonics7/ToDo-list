@@ -15,6 +15,7 @@ const UserSchema = new Schema({
         required: true,
         createIndexes: true,
     },
+    todos: [{ type: Schema.Types.ObjectId, ref: 'Todo' }],
     // avatar: {
     //     type: File,
     //     required: false,
