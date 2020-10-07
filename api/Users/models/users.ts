@@ -12,7 +12,7 @@ const UserSchema = new Schema({
     },
     email: {
         type: String,
-        required: true,
+        required: false,
         createIndexes: true,
     },
     todos: [{ type: Schema.Types.ObjectId, ref: 'Todo' }],
@@ -20,6 +20,10 @@ const UserSchema = new Schema({
     //     type: File,
     //     required: false,
     // },
+});
+
+UserSchema.set('toJSON', {
+    virtuals: true,
 });
 
 export const User = model('User', UserSchema);

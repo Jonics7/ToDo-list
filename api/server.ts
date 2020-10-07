@@ -3,12 +3,12 @@ import cors from 'cors';
 import { connect } from 'mongoose';
 import mainRoutes from './routes';
 import userRoutes from './Users/routes/userRoutes';
-
+import dotenv from 'dotenv';
 const routes = [mainRoutes, userRoutes];
 
 const app = express();
 const PORT = process.env.PORT || 9080;
-const uri = 'mongodb+srv://Jonics7:3145324pP@todo-list.g8ewk.mongodb.net/todos';
+dotenv.config({ path: './.env' });
 
 app.use(
     cors({
@@ -16,16 +16,21 @@ app.use(
     }),
 );
 app.use(routes);
+app.use(express.json({ type: '*/*' }));
 
 async function Start() {
     try {
-        await connect(uri, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-        app.listen(PORT, () => {
-            console.log('Server has been started on port ' + PORT);
-        });
+        if (process.env.MONGODB_URI === undefined) {
+            console.log('uri is undefined');
+        } else {
+            await connect(process.env.MONGODB_URI, {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+            });
+            app.listen(PORT, () => {
+                console.log('Server has been started on port ' + PORT);
+            });
+        }
     } catch (err) {
         console.log(err);
     }
