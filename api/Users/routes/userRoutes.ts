@@ -1,9 +1,15 @@
 import { Router } from 'express';
 import express from 'express';
 import { User } from '../models/users';
+import * as jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
+dotenv.config({ path: './.env' });
+
+const app = express();
 const router = Router();
 const toJSON = express.json({ type: '*/*' });
+const accessTokenSecret = process.env.JWT;
 
 router.get('/users', async (request, response) => {
     const users = await User.find({});
@@ -25,8 +31,14 @@ router.post('/users/create', toJSON, async (request, response) => {
             username: request.body.register.username,
             password: request.body.register.password,
         });
-        //TODO: need give jwt token !!!
-        await user.save();
+        if (accessTokenSecret !== undefined && user) {
+            const accessToken = jwt.sign(
+                { username: request.body.register.username, password: request.body.register.password },
+                accessTokenSecret,
+            );
+            response.json({ accessToken });
+            await user.save();
+        }
     } catch (err) {
         console.log(err);
         return err;
