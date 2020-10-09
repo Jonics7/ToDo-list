@@ -1,3 +1,5 @@
+import cookie from 'react-cookies';
+
 export const baseUrl = 'localhost:9080';
 // export const serverUrl = baseUrl + '/api';
 export const secure = false;
@@ -22,16 +24,24 @@ export function throwErr(response: any) {
     }
 }
 
-export default function api(url: string, headers?: { [name: string]: string }, body?: any, mainUrl = baseUrl) {
+export default function api(url: string, body?: any, headers?: Record<string, string>, mainUrl = baseUrl) {
     console.log({ url, headers, body });
+
+    const token = cookie.load('jwt-key');
+
+    const finalHeaders: Record<string, string> = {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        ...headers,
+    };
+
+    if (token) {
+        finalHeaders['Authorization'] = 'Bearer ' + token;
+    }
 
     return fetch((secure ? 'https://' : 'http://') + mainUrl + url, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            ...headers,
-        },
+        headers: finalHeaders,
         body: JSON.stringify(body) || '{}',
     })
         .then(status)

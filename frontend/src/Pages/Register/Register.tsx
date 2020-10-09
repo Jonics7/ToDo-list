@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Register.scss';
-import { UserService } from '../../api/users-service';
+import { registerUser } from 'store/Users/actions';
 
 export const Register = () => {
     const [userName, setUserName] = useState<string>('');
@@ -17,7 +17,10 @@ export const Register = () => {
     const onSubmit = async (register: {username: string, password: string}, e:any) => {
         e.preventDefault();
         try {
-            UserService.register({register});
+            registerUser({
+                username: register.username,
+                password: register.password
+            });
         } catch (error) {
             console.log(error);
         }

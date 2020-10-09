@@ -28,12 +28,12 @@ export const registerUser = async (request: any, response: any): Promise<Request
     } else {
         try {
             const user = new User({
-                username: request.body.register.username,
-                password: request.body.register.password,
+                username: request.body.username,
+                password: request.body.password,
             });
             if (accessTokenSecret !== undefined && user) {
                 const accessToken = jwt.sign(
-                    { username: request.body.register.username, password: request.body.register.password },
+                    { username: request.body.username, password: request.body.password },
                     accessTokenSecret,
                 );
                 await user.save();
