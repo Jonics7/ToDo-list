@@ -9,7 +9,7 @@ export interface SetUserAction {
 };
 
 export const loginUser = (values: LoginUser & { rememberMe: boolean }) => {
-    return (dispatch: any) => {
+    return () => {
         return UsersService.login({ login: values }).then(({ token }) => {
             const options = values.rememberMe ? { maxAge: 2592000 } : { path: '/' };
             cookie.remove('jwt-key'); // can be old jwt-key without options

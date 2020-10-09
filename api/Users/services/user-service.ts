@@ -11,9 +11,9 @@ export const getAllUsers = async (request: any, response: any): Promise<RequestH
     try {
         const users = await User.find({});
         try {
-            response.status(200).send(users);
+            response.send(users);
         } catch (err) {
-            console.log(err);
+            console.log('err');
             return err;
         }
     } catch (err) {
@@ -32,10 +32,7 @@ export const registerUser = async (request: any, response: any): Promise<Request
                 password: request.body.password,
             });
             if (accessTokenSecret !== undefined && user) {
-                const accessToken = jwt.sign(
-                    { username: request.body.username, password: request.body.password },
-                    accessTokenSecret,
-                );
+                const accessToken = jwt.sign({ username: request.body.username, id: user._id }, accessTokenSecret);
                 await user.save();
                 return response.json({ accessToken });
             } else {
@@ -48,6 +45,23 @@ export const registerUser = async (request: any, response: any): Promise<Request
     }
 };
 
+export const loginUser = async (request: any, response: any): Promise<RequestHandler | string | undefined> => {
+    try {
+        const user = await User.findOne({ username: request.body.username, password: request.body.password });
+        const success = user ? true : false;
+        if (accessTokenSecret !== undefined && user) {
+            const accessToken = jwt.sign({ username: request.body.username, id: user._id }, accessTokenSecret);
+            return response.json({ accessToken });
+        } else {
+            return response.sendStatus(500);
+        }
+        return response.send(success);
+    } catch (err) {
+        console.log(err);
+        return err;
+    }
+};
+
 export const getUserDetail = async (request: any, response: any): Promise<RequestHandler | string | undefined> => {
     try {
         console.log(request.body);
@@ -55,6 +69,7 @@ export const getUserDetail = async (request: any, response: any): Promise<Reques
         try {
             return response.send(user);
         } catch (err) {
+            console.log(err);
             return 'Error: user not founded !';
         }
     } catch (err) {
