@@ -23,16 +23,22 @@ export const getAllUsers = async (request: any, response: any): Promise<RequestH
 };
 
 export const registerUser = async (request: any, response: any): Promise<RequestHandler | string | undefined> => {
+    console.log(request.body);
     if (!request.body) {
-        return response.sendStatus(500);
+        console.log('request.body empty');
+        // return response.sendStatus(500);
     } else {
         try {
+            console.log(request.body);
             const user = new User({
-                username: request.body.username,
-                password: request.body.password,
+                username: request.body.register.username,
+                password: request.body.register.password,
             });
             if (accessTokenSecret !== undefined && user) {
-                const accessToken = jwt.sign({ username: request.body.username, id: user._id }, accessTokenSecret);
+                const accessToken = jwt.sign(
+                    { username: request.body.register.username, id: user._id },
+                    accessTokenSecret,
+                );
                 await user.save();
                 return response.json({ accessToken });
             } else {
@@ -40,7 +46,7 @@ export const registerUser = async (request: any, response: any): Promise<Request
             }
         } catch (err) {
             console.log(err);
-            return err;
+            return "Can't register";
         }
     }
 };

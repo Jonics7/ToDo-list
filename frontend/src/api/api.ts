@@ -39,6 +39,8 @@ export default function api(url: string, body?: any, headers?: Record<string, st
         finalHeaders['Authorization'] = 'Bearer ' + token;
     };
 
+    console.log(finalHeaders);
+
     return fetch((secure ? 'https://' : 'http://') + mainUrl + url, {
         method: 'POST',
         headers: finalHeaders,
